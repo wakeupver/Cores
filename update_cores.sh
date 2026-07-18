@@ -9,7 +9,7 @@
 #   ./update_cores.sh
 #   (atau cukup: bash update_cores.sh)
 #
-# Jalankan dari root folder project (folder yang berisi "bundled-cores").
+# Jalankan dari root folder project.
 
 set -uo pipefail
 
@@ -39,7 +39,6 @@ cores=(
     "pcsx_rearmed"
     "ppsspp"
     "fbneo"
-    "desmume"
     "mame2003_plus"
     "prosystem"
     "handy"
@@ -154,7 +153,6 @@ for libretro_core_name in "${cores[@]}"; do
 
     for arch in "${archs[@]}"; do
         lib_dir="$core_folder/src/main/jniLibs/$arch"
-        bundled_dir="bundled-cores/src/main/jniLibs/$arch"
 
         echo "  -> Arsitektur: $arch"
         mkdir -p "$lib_dir"
@@ -168,10 +166,6 @@ for libretro_core_name in "${cores[@]}"; do
         unzip -o -q "$lib_dir/$core" -d "$lib_dir"
         rm -f "$lib_dir/$core"
         mv -f "$lib_dir/$libretro_so_name" "$lib_dir/lib$chimeroid_so_name"
-
-        mkdir -p "$bundled_dir"
-        rm -f "$bundled_dir/lib$chimeroid_so_name"
-        ln -s "../../../../../$lib_dir/lib$chimeroid_so_name" "$bundled_dir/lib$chimeroid_so_name"
 
         echo "     [OK] $arch selesai"
     done
