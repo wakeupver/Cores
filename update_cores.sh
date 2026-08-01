@@ -29,6 +29,7 @@ done
 cores=(
     "stella"
     "fceumm"
+    "flycast"
     "snes9x"
     "genesis_plus_gx"
     "gambatte"
