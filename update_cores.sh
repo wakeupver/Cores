@@ -48,6 +48,7 @@ cores=(
     "mednafen_ngp"
     "mednafen_wswan"
     "citra"
+    "dolphin"
 )
 
 archs=("arm64-v8a")
