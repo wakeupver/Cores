@@ -1,21 +1,6 @@
-#!/data/data/com.termux/files/usr/bin/bash
-#
-# update_cores.sh
-# Versi shell dari update_cores.ipynb (project chimeroid) — untuk Termux.
-#
-# Cara pakai:
-#   pkg install wget unzip -y
-#   chmod +x update_cores.sh
-#   ./update_cores.sh
-#   (atau cukup: bash update_cores.sh)
-#
-# Jalankan dari root folder project.
 
 set -uo pipefail
 
-# ============================================================
-# Cek dependency
-# ============================================================
 for cmd in wget unzip; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "Error: '$cmd' belum terinstall. Jalankan: pkg install $cmd -y"
@@ -23,18 +8,12 @@ for cmd in wget unzip; do
     fi
 done
 
-# ============================================================
-# Uncomment core yang mau diupdate
-# ============================================================
 cores=(
     "stella"
     "fceumm"
-    "flycast"
     "snes9x"
     "genesis_plus_gx"
     "gambatte"
-    "melonds"
-    #"melondsds"
     "mgba"
     "mupen64plus_next_gles3"
     "pcsx_rearmed"
@@ -47,8 +26,6 @@ cores=(
     "dosbox_pure"
     "mednafen_ngp"
     "mednafen_wswan"
-    "citra"
-    "dolphin"
 )
 
 archs=("arm64-v8a")
@@ -64,14 +41,10 @@ delivery_on_demand='
 </dist:install-time>
 '
 
-# Mapping nama core libretro -> nama core chimeroid (kalau beda)
 declare -A chimeroid_core_names=(
     ["melondsds"]="melonds"
 )
 
-# ============================================================
-# Fungsi bantu
-# ============================================================
 write_file() {
     local filepath="$1"
     local content="$2"
@@ -127,9 +100,6 @@ generate_manifest() {
 EOF
 }
 
-# ============================================================
-# Proses utama
-# ============================================================
 if [ ${#cores[@]} -eq 0 ]; then
     echo "Tidak ada core yang di-uncomment di daftar \$cores. Edit dulu script-nya."
     exit 1
@@ -169,11 +139,11 @@ for libretro_core_name in "${cores[@]}"; do
         rm -f "$lib_dir/$core"
         mv -f "$lib_dir/$libretro_so_name" "$lib_dir/lib$chimeroid_so_name"
 
-        echo "     [OK] $arch selesai"
+        echo "[OK] $arch selesai"
     done
 
-    echo "=== Selesai: $libretro_core_name ==="
+    echo "Done: $libretro_core_name "
     echo
 done
 
-echo "Semua core selesai diproses."
+echo "All Done"
